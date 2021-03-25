@@ -1,7 +1,7 @@
 <template>
   <nav-bar></nav-bar>
   <div id="wrapper">
-  <router-view  class="text-light pt-2"/>
+    <router-view  class="text-light pt-2"/>
   </div>
 </template>
 

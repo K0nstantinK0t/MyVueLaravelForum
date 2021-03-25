@@ -114,6 +114,7 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/event-dispatcher" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravel/sanctum" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
