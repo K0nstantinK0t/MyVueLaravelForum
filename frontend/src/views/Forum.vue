@@ -7,10 +7,7 @@
 
 <script>
 export default {
-name: "Forum",
-  created() {
-    console.log(this.$store.state.API.token)
-  }
+  name: "Forum",
 }
 </script>
 

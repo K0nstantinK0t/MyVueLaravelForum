@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Control authentication: register, token getting, log out
+ * Control authentication
  * Class AuthController
  * @package App\Http\Controllers\API
  */
@@ -64,7 +64,7 @@ class AuthController extends Controller
         // get user
         $user = User::where('email', $request->email)->first();
 
-        // check correct data
+        // check data correct
         if (!$user || !Hash::check($request->password, $user->password))
             return response()->json(['errors' => 'The provided credentials are incorrect.'], 401);
 
@@ -81,5 +81,16 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'tokens deleted successful'], 200);
+    }
+
+    /**
+     * Check existing of token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function isValidToken()
+    {
+        // request coming here if it have  passed the sanctum middleware protection. So token is exists.
+        // if you know other way to do it, please report me
+        return response()->json(['message' => 'so token exists', 'result' => true], 200);
     }
 }

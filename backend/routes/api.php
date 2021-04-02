@@ -16,12 +16,13 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('token', [AuthController::class, 'token']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/token', [AuthController::class, 'token']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/name', function (Request $request) {
         return response()->json(['name' => $request->user()->name]);
     });
     Route::get('/logout', [AuthController::class, 'logOut']);
+    Route::post('/isvalidtoken', [AuthController::class, 'isValidToken']);
 });

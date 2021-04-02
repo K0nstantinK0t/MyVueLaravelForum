@@ -18,7 +18,7 @@
             <input type="email" class="form-control" id="email" v-model="input.email">
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Пароль</label>
+            <label for="password" class="form-label">Пароль (минимальная длина 8 символов)</label>
             <input type="password" class="form-control" id="password" v-model="input.password">
           </div>
           <input type="submit" class="btn btn-primary" value="Submit" />
@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import {registrationNewUser} from "@/api";
-import {validateRegistrationData} from "@/validation";
-import router from "@/router";
+import {registrationNewUser} from "@/api"
+import {validateRegistrationData} from "@/validation"
+import router from "@/router"
 
 export default {
   name: "Registration",
@@ -46,16 +46,16 @@ export default {
     }
   },
   methods: {
-    onSubmit: function (){
+     async onSubmit(){
       this.errors = validateRegistrationData(this.input)
       if(this.errors.length)
         return
-      registrationNewUser(this.input).then(tokenForAPI => {
-        this.$store.commit('API/changeToken', tokenForAPI)
+      try {
+        await registrationNewUser(this.input)
         router.push({name: 'forum'})
-      }).catch( () => {
+      }catch{
         this.errors.push('Ошибка! Введите корректные данные!')
-      })
+      }
     }
   }
 }
