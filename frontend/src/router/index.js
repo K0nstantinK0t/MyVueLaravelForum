@@ -1,15 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home'
+import {callEveryRouteChange} from '../api'
 
 import isLoggedUser from "./middlewares/isLoggedUser"
 import isUnloggedUser from "./middlewares/isUnloggedUser"
-
-/* NOTE
-* Every route where stands "beforeEnter: isUnloggedUser/isLoggedUser"
-* will send request to backend to know authed user or not.
-* This bad affects the performance
-* but if you know other way to do it, please report me
-* */
 
 const routes = [
   {
@@ -56,6 +50,15 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+
+/* NOTE I use it to load data and execute some functions whenever route changes
+* This bad affects the performance
+* but if you know other way how realize it, please report me*/
+router.beforeEach(async (to, from, next) => {
+  await callEveryRouteChange()
+  next()
 })
 
 export default router

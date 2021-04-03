@@ -1,19 +1,24 @@
 import { createStore } from 'vuex'
-import * as api from '../api'
 
 const moduleUser = {
   namespaced: true,
   state: () => ({
-      name: null
-    }),
-  // mutations: {
-  //  setName
-  // },
-  getters: {
-    isLogged: async function(state, getters, rootState, rootGetters){
-      return await rootGetters['API/isValidToken']
+    isLogged: false,
+    name: null
+  }),
+  mutations: {
+    setName(state, newName) {
+      state.name = newName
+    },
+    deleteName(state){
+      state.name = null
+    },
+    setLoggedStatus(state, newStatus) {
+      state.isLogged = newStatus
     }
-  }
+  },
+  // getters: {
+  // }
 }
 
 const moduleAPI = {
@@ -22,20 +27,18 @@ const moduleAPI = {
     token: null
   }),
   mutations: {
-    changeToken (state, newToken){
-      if(!newToken)
-        return
+    setToken (state, newToken){
       state.token = newToken
     },
     deleteToken (state){
       state.token = null
     }
   },
-  getters: {
-    isValidToken: async function (state){
-      return await api.isValidAPIToken(state.token)
-    }
-  }
+  // getters: {
+  //   isValidToken: async function (state){
+  //     return await api.isValidAPIToken(state.token)
+  //   }
+  // }
 }
 
 export default createStore({

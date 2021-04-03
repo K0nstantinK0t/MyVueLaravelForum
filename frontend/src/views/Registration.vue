@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {registrationNewUser} from "@/api"
+import {registerNewUser} from "@/api"
 import {validateRegistrationData} from "@/validation"
 import router from "@/router"
 
@@ -51,7 +51,7 @@ export default {
       if(this.errors.length)
         return
       try {
-        await registrationNewUser(this.input)
+        await registerNewUser(this.input)
         router.push({name: 'forum'})
       }catch{
         this.errors.push('Ошибка! Введите корректные данные!')

@@ -5,7 +5,7 @@
         <h1>Добро пожаловать!</h1>
         <p class="fs-3">
           Это тестовый сайт, написанный мной. <br/>
-          Он посвящён форуму. <br/>
+          Он посвящён форуму. &#9786; <br/>
           Прежде чем вы сможете его опробовать, <router-link to="/auth" class="link-info">авторизуйтесь
           </router-link> или <router-link to="/registration" class="link-info">зарегистрируйтесь</router-link>.
         </p>
@@ -16,9 +16,7 @@
 
 <script>
 export default {
-  name: 'Home',
-  components: {
-  }
+  name: 'Home'
 }
 </script>
 

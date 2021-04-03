@@ -68,11 +68,11 @@ export default {
     }
   },
   async created(){
-    await this.checkUserIsLogged()
+    this.checkUserIsLogged()
   },
   methods: {
-    async checkUserIsLogged(){
-      this.userIsLogged = await store.getters['user/isLogged']
+    checkUserIsLogged(){
+      this.userIsLogged = store.state.user.isLogged
     }
   },
   watch:{

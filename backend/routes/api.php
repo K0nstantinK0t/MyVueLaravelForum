@@ -24,5 +24,5 @@ Route::middleware('auth:sanctum')->group(function (){
         return response()->json(['name' => $request->user()->name]);
     });
     Route::get('/logout', [AuthController::class, 'logOut']);
-    Route::post('/isvalidtoken', [AuthController::class, 'isValidToken']);
+    Route::get('/isvalidtoken', [AuthController::class, 'isValidToken']);
 });

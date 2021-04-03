@@ -1,7 +1,7 @@
 import store from '../../store'
 
-export default async function(to, from, next){
-    if (! (await store.getters['user/isLogged']))
+export default function(to, from, next){
+    if (! (store.state.user.isLogged))
         next({ name: 'auth' })
     else
         next()
