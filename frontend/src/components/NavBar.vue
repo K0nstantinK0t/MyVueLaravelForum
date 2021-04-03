@@ -24,7 +24,7 @@
               <template v-else>
 <!--                TODO: make user name shown-->
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                "Имя"
+                {{ userName }}
               </a>
               </template>
 <!--              dropdown menu example-->
@@ -64,7 +64,8 @@ export default {
   name: "NavBar",
   data: function (){
     return {
-      userIsLogged: false
+      userIsLogged: false,
+      userName: null
     }
   },
   async created(){
@@ -78,6 +79,10 @@ export default {
   watch:{
     $route (){
       this.checkUserIsLogged()
+    },
+    userIsLogged(status){
+      if(status)
+        this.userName = store.state.user.name
     }
   }
 }

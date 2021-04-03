@@ -90,7 +90,7 @@ class AuthController extends Controller
     public function isValidToken()
     {
         // request coming here if it have  passed the sanctum middleware protection. So token is exists.
-        // if you know other way to do it, please report me
+        // if you know other way how realize it, please report me
         return response()->json(['message' => 'so token exists', 'result' => true], 200);
     }
 }
