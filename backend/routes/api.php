@@ -20,7 +20,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/token', [AuthController::class, 'token']);
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/name', function (Request $request) {
+    Route::get('/user/name', function (Request $request) {
         return response()->json(['name' => $request->user()->name]);
     });
     Route::get('/logout', [AuthController::class, 'logOut']);

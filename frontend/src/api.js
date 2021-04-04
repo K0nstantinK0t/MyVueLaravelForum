@@ -1,10 +1,9 @@
 import axios from 'axios'
 import store from './store'
 
-// TODO: change host name in "production" version (when "npm build" command executes)
-const HOST_NAME = window.location.hostname
-
-// const HOST_NAME = 'myforum' // my local host version
+// TODO: change host name in "production" version (when run "npm build")
+// const HOST_NAME = window.location.hostname
+const HOST_NAME = 'myforum' // my local host version
 const API_HOST = `api.${HOST_NAME}` // this variable keeps a backend host name
                                     // I use a subdomain to divide frontend and backend
 
@@ -97,7 +96,7 @@ export async function getUserName()
     await makeCSRFToken()
     try {
         const apiToken = store.state.API.token
-        const response = await axios.get(`http://${API_HOST}/api/name`, {
+        const response = await axios.get(`http://${API_HOST}/api/user/name`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
             }

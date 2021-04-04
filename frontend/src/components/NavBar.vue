@@ -7,11 +7,6 @@
       </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
-<!--            TODO: delete comments-->
-<!--            link example -->
-<!--            <li class="nav-item">-->
-<!--              <router-link :to="{name: 'forum'}"  class="nav-link">Форум</router-link>-->
-<!--            </li>-->
             <li class="nav-item">
               <router-link :to="{name: 'about'}"  class="nav-link">О нас</router-link>
             </li>
@@ -22,18 +17,10 @@
               </a>
               </template>
               <template v-else>
-<!--                TODO: make user name shown-->
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ userName }}
               </a>
               </template>
-<!--              dropdown menu example-->
-  <!--            <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">-->
-  <!--              <li><a class="dropdown-item text-light" href="#">Action</a></li>-->
-  <!--              <li><a class="dropdown-item text-light" href="#">Another action</a></li>-->
-  <!--              <li><hr class="dropdown-divider text-light"></li>-->
-  <!--              <li><a class="dropdown-item text-light" href="#">Something else here</a></li>-->
-  <!--            </ul>-->
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                 <template v-if="!userIsLogged">
                   <li>
@@ -83,6 +70,8 @@ export default {
     userIsLogged(status){
       if(status)
         this.userName = store.state.user.name
+      else
+        this.userName = null
     }
   }
 }
