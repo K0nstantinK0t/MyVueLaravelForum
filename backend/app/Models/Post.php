@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'header',
+        'directory_id',
+        'author_id'
+    ];
 
     /**
      * Get parent directory

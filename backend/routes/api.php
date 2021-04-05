@@ -14,6 +14,10 @@ Route::middleware('auth:sanctum')->group(function (){
     });
     Route::get('/logout', [AuthController::class, 'logOut']);
     Route::get('/isvalidtoken', [AuthController::class, 'isValidToken']);
-    Route::get('/forum/{directoryID?}', [ForumController::class, 'getDirectory'])
-        ->where('directoryID', '[0-9]+'); // RegEx - only number can be passed
+    Route::prefix('forum')->group(function (){
+        Route::get('/{directoryID?}', [ForumController::class, 'getDirectory'])
+            ->where('directoryID', '[0-9]*'); // RegEx - only number can be passed or nothing
+        Route::put('/addpost/{directoryID?}', [ForumController::class, 'addPost'])
+            ->where('directoryID', '[0-9]*'); // RegEx - only number can be passed or nothing
+    });
 });

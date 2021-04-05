@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('directory_id');
+            $table->string('header', 64);
             $table->timestamps();
         });
     }
