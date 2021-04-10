@@ -21,4 +21,11 @@ class Post extends Model
     {
         return $this->belongsTo(Directory::class);
     }
+    /**
+     * Get author of this post
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id', 'author_id');
+    }
 }
