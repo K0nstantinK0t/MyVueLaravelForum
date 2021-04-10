@@ -16,7 +16,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('author_id');
-            $table->unsignedBigInteger('directory_id');
+            $table->unsignedBigInteger('directory_id')->default(1);
             $table->string('header', 64);
             $table->timestamps();
         });

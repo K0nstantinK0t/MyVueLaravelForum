@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    // TODO: realize
     /**
      * Display a listing of the resource.
      *
@@ -73,6 +72,7 @@ class PostController extends Controller
         if($request->user()->id != $editingPost->author_id)
             return response()->json(['message' => 'You try change post of other!'], 403);
         Post::find($postID)->update($request->all());
+        return response()->json(['message' => 'Post was updated successful'], 200);
     }
 
     /**
@@ -86,6 +86,8 @@ class PostController extends Controller
     {
         $deletingPost = Post::findOrFail($postID);
         if($request->user()->id != $deletingPost->author_id)
-            return response()->json(['message' => 'You try delete post of other!'], 403);
+            return response()->json(['message' => 'You try delete post of other person!'], 403);
+        $deletingPost->delete();
+        return response()->json(['message' => 'Post was deleted successful'], 200);
     }
 }

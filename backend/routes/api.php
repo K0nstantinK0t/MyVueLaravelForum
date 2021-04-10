@@ -19,7 +19,6 @@ Route::middleware('auth:sanctum')->group(function (){
         // TODO: convert directory to resource
         Route::get('/{directoryID?}', [ForumController::class, 'getDirectory'])
             ->where('directoryID', '[0-9]*'); // RegEx - only number can be passed or nothing
-        Route::resource('directories.posts', PostController::class);
-
+        Route::resource('directories.posts', PostController::class)->shallow();
     });
 });
