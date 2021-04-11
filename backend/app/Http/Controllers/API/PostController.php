@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Directory;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,7 @@ class PostController extends Controller
      */
     public function index($directoryID)
     {
-        $posts = Post::all();
+        $posts = Directory::find($directoryID)->posts;
         return response()->json(['posts' => $posts], 200);
     }
 
@@ -32,7 +33,7 @@ class PostController extends Controller
     {
         // validation
         $validator = Validator::make($request->all(), [
-            'header' => ['required', 'max:255']
+            'header' => ['required', 'max:64']
         ]);
 
         if ($validator->fails()) {
@@ -40,10 +41,10 @@ class PostController extends Controller
         }
 
         // create model
-        $header = $request->header;
-        $post = $request->user()->posts()->create([
-            'header' => $header,
-            'directory_id' => $directoryID]);
+        $post = Directory::findOrfail($directoryID)->posts()->create([
+            'header' => $request->header,
+            'author_id' => $request->user()->id
+        ]);
         return response()->json(['post' => $post], 200);
     }
 

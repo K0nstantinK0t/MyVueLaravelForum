@@ -10,10 +10,13 @@ class Directory extends Model
     use HasFactory;
     public $timestamps = false;
 
+    protected $fillable = [
+      'name'
+    ];
     /**
      * Get child directories
      */
-    public function directories()
+    public function childDirectories()
     {
         return $this->hasMany(Directory::class, 'parent_id');
     }

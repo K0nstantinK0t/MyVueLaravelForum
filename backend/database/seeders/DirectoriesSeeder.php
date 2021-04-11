@@ -14,8 +14,10 @@ class DirectoriesSeeder extends Seeder
      */
     public function run()
     {
+        // make a root directory
         DB::table('directories')->insert([
-            'parent_id' => null // make a root directory
+            'parent_id' => null,
+            'name' => 'root'
         ]);
     }
 }
