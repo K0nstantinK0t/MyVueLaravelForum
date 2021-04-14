@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Directory;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,23 +62,35 @@ class DirectoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $directoryID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $directoryID)
     {
         // will review in future for secure and improving
-        Directory::findOrFail($directoryID)->update($request->all());
+        $directory = Directory::findOrFail($directoryID);
+        $directory->update($request->all());
+        return response()->json(['directory' => $directory]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $directoryID
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($directoryID)
     {
         // will review in future for secure and improving
-        Directory::destroy($directoryID);
+
+        if($directoryID == 1)
+            return response()->json(['message' => 'You can\'t to delete a Root directory!', 400]);
+
+        if(Directory::destroy($directoryID)) {
+            // if directory existed then delete bound posts
+            Post::where('directory_id', $directoryID)->delete();
+            return response()->json(['message' => 'Directory deleted successful'], 200);
+        }
+        else
+            return response()->json(['message' => 'So directory doesn\'t exists', 400]);
     }
 }
