@@ -2,9 +2,9 @@ import axios from 'axios'
 import store from './store'
 
 // TODO: change host name in "production" version (when run "npm build")
-// const HOST_NAME = window.location.hostname
-const HOST_NAME = 'myforum' // my local host version
-const API_HOST = `api.${HOST_NAME}` // this variable keeps a backend host name
+// const HOST_DOMAIN_NAME = window.location.hostname
+const HOST_DOMAIN_NAME = 'myforum' // my local host version
+const API_HOST_DOMAIN_NAME = `api.${HOST_DOMAIN_NAME}` // this variable keeps a backend host name
                                     // I use a subdomain to divide frontend and backend
 
 // http 401 status  handler - if catch 401 response then delete current token
@@ -32,16 +32,25 @@ export async function callEveryRouteChange()
 
 async function makeCSRFToken()
 {
-    await axios.get(`http://${API_HOST}/sanctum/csrf-cookie`)
+    await axios.get(`http://${API_HOST_DOMAIN_NAME}/sanctum/csrf-cookie`)
 }
 
-
+// get token in store
+function getToken()
+{
+    return store.state.API.token;
+}
 // return false if token is invalid and true if token is valid
 export async function isValidAPIToken(token)
 {
+    // optimization: if token doesn't exists then no request
+    if(!getToken()){
+        return false;
+    }
+
     await makeCSRFToken()
     try {
-        const response = await axios.get(`http://${API_HOST}/api/isvalidtoken`,{
+        const response = await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/isvalidtoken`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -57,7 +66,7 @@ export async function isValidAPIToken(token)
 export async function registerNewUser(newUser)
 {
     await makeCSRFToken()
-    const response = await axios.post(`http://${API_HOST}/api/register`, newUser)
+    const response = await axios.post(`http://${API_HOST_DOMAIN_NAME}/api/register`, newUser)
     const APIToken = response.data.token
     store.commit('API/setToken', APIToken)
     return APIToken
@@ -66,8 +75,7 @@ export async function registerNewUser(newUser)
 export async function authUser(userData)
 {
     await makeCSRFToken()
-
-    const response = await axios.post(`http://${API_HOST}/api/token`, userData)
+    const response = await axios.post(`http://${API_HOST_DOMAIN_NAME}/api/token`, userData)
     const APIToken = response.data.token
     store.commit('API/setToken', APIToken)
     store.commit('user/setLoggedStatus', true)
@@ -76,10 +84,13 @@ export async function authUser(userData)
 
 export async function logOut()
 {
+    if(!getToken()){
+        return false;
+    }
     await makeCSRFToken()
     try {
         const apiToken = store.state.API.token
-        await axios.get(`http://${API_HOST}/api/logout`, {
+        await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/logout`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
             }
@@ -93,10 +104,13 @@ export async function logOut()
 
 export async function getUserName()
 {
+    if(!getToken()){
+        return false;
+    }
     await makeCSRFToken()
     try {
         const apiToken = store.state.API.token
-        const response = await axios.get(`http://${API_HOST}/api/user/name`, {
+        const response = await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/user/name`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
             }

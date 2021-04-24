@@ -16,7 +16,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::get('/logout', [AuthController::class, 'logOut']);
     Route::get('/isvalidtoken', [AuthController::class, 'isValidToken']);
     Route::prefix('forum')->group(function (){
-        // TODO: convert directory to resource
         Route::apiResource('directories',DirectoryController::class)->shallow();
         Route::apiResource('directories.posts',PostController::class)->shallow();
     });

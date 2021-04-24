@@ -6,6 +6,7 @@
 </template>
 
 <script>
+// TODO: REALIZE ALL
 export default {
   name: "Forum",
 }
