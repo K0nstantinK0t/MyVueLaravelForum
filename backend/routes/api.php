@@ -18,5 +18,6 @@ Route::middleware('auth:sanctum')->group(function (){
     Route::prefix('forum')->group(function (){
         Route::apiResource('directories',DirectoryController::class)->shallow();
         Route::apiResource('directories.posts',PostController::class)->shallow();
+        // TODO: add Message Resource
     });
 });

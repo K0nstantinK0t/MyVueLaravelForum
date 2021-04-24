@@ -17,6 +17,7 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->text('content');
             $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('post_id');
             $table->timestamps();
         });
     }
