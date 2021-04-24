@@ -35,7 +35,7 @@ async function makeCSRFToken()
     await axios.get(`http://${API_HOST_DOMAIN_NAME}/sanctum/csrf-cookie`)
 }
 
-// get token in store
+// get token from store
 function getToken()
 {
     return store.state.API.token;
