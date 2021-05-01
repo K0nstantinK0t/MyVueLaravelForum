@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Directory;
+use App\Models\Message;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,18 +34,30 @@ class PostController extends Controller
     {
         // validation
         $validator = Validator::make($request->all(), [
-            'header' => ['required', 'max:64']
+            'header' => ['required', 'max:64'],
+            'content' => ['required']
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // create model
-        $post = Directory::findOrfail($directoryID)->posts()->create([
-            'header' => $request->header,
-            'author_id' => $request->user()->id
+        // check existing of directory
+        Directory::findOrfail($directoryID);
+
+        // create init message and post
+        $message = Message::create([
+            'content' => $request->input('content'),
+            'author_id' => $request->user()->id,
         ]);
+
+        $post = $message->tiedPost()->create([
+            'header' => $request->header,
+            'author_id' => $request->user()->id,
+            'directory_id' => $directoryID
+        ]);
+
+        $message->update(['post_id' => $post->id]);
         return response()->json(['post' => $post], 200);
     }
 
@@ -71,8 +84,8 @@ class PostController extends Controller
     {
         $editingPost = Post::findOrFail($postID);
         if($request->user()->id != $editingPost->author_id)
-            return response()->json(['message' => 'You try change post of other!'], 403);
-        Post::find($postID)->update($request->all());
+            return response()->json(['message' => 'You try change another\'s  post!'], 403);
+        $editingPost->update($request->all());
         return response()->json(['message' => 'Post was updated successful'], 200);
     }
 
@@ -86,8 +99,9 @@ class PostController extends Controller
     public function destroy(Request $request, $postID)
     {
         $deletingPost = Post::findOrFail($postID);
-        if($request->user()->id != $deletingPost->author_id)
-            return response()->json(['message' => 'You try delete post of other person!'], 403);
+        if($request->user()->id != $deletingPost->author_id) {
+            return response()->json(['message' => 'You try delete another\'s post!'], 403);
+        }
         $deletingPost->delete();
         return response()->json(['message' => 'Post was deleted successful'], 200);
     }

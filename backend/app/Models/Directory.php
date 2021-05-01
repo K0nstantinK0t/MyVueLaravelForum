@@ -18,7 +18,7 @@ class Directory extends Model
      */
     public function childDirectories()
     {
-        return $this->hasMany(Directory::class, 'parent_id');
+        return $this->hasMany(Directory::class, 'parent_id', 'id');
     }
 
     /**

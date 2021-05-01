@@ -48,7 +48,7 @@ class DirectoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $directoryID
+     * @param  $directoryID
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($directoryID)
@@ -61,7 +61,7 @@ class DirectoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $directoryID
+     * @param  $directoryID
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $directoryID)
@@ -75,7 +75,7 @@ class DirectoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $directoryID
+     * @param  $directoryID
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($directoryID)
@@ -83,14 +83,12 @@ class DirectoryController extends Controller
         // will review in future for secure and improving
 
         if($directoryID == 1)
-            return response()->json(['message' => 'You can\'t to delete a Root directory!', 400]);
-
+            return response()->json(['message' => 'You can\'t delete a Root directory!', 400]);
         if(Directory::destroy($directoryID)) {
-            // if directory existed then delete bound posts
-            Post::where('directory_id', $directoryID)->delete();
             return response()->json(['message' => 'Directory deleted successful'], 200);
         }
-        else
+        else {
             return response()->json(['message' => 'So directory doesn\'t exists', 400]);
+        }
     }
 }
