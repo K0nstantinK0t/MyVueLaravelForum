@@ -4,7 +4,7 @@
      <div class="col-md-6">
        <h1>Авторизация</h1>
        <div class="alert alert-danger p-0 pt-2" v-if="errors.length">
-         <ul v-for="(error, id) in errors" v-bind:key="id">
+         <ul v-for="(error, id) in errors" :key="id">
            {{error}}
          </ul>
        </div>
@@ -32,7 +32,7 @@ import {validateAuthData} from "@/validation"
 export default {
   name: "Auth",
   data: function (){
-    return{
+    return {
       inputData: {
         email: null,
         password: null

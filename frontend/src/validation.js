@@ -26,3 +26,23 @@ export function validateAuthData(data)
     }
     return errors
 }
+
+export function validateMessageData(message){
+    let errors = []
+    if(!message){
+        errors.push('Пост должен содержать начальное сообщение')
+    }
+    return errors
+}
+export function validatePostData(post)
+{
+    let errors = []
+    if(!post.header){
+        errors.push('Заголовок не должен быть пустым')
+    }
+    else if(post.header.length > 64){
+        errors.push('Максимальная длина заголовка 64 символа')
+    }
+    errors = [...errors, ...validateMessageData(post.content)]
+    return errors
+}
