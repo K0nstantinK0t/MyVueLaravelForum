@@ -19,7 +19,7 @@
               <div class="mb-1">
                 <label for="message" class="form-label">Content</label>
                 <!--TODO: delete token-->
-                <editor api-key="API-TOKEN-FOR-TINYMCE" id="message">
+                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="message">
 
                 </editor>
 
