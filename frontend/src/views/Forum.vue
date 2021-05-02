@@ -17,9 +17,12 @@
                 <input type="text" class="form-control" id="header"/>
               </div>
               <div class="mb-1">
-                <!--TODO: add text editor-->
                 <label for="message" class="form-label">Content</label>
-                <input type="email" class="form-control" id="message"/>
+                <!--TODO: delete token-->
+                <editor api-key="API-TOKEN-FOR-TINYMCE" id="message">
+
+                </editor>
+
               </div>
               <button type="submit" class="btn btn-success">Create</button>
             </form>
@@ -44,9 +47,14 @@
 </template>
 
 <script>
+import Editor from '@tinymce/tinymce-vue'
+
 // TODO: REALIZE ALL
 export default {
   name: "Forum",
+  components: {
+    'editor': Editor
+  }
 }
 </script>
 

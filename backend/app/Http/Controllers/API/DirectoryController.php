@@ -83,7 +83,7 @@ class DirectoryController extends Controller
         // will review in future for secure and improving
 
         if($directoryID == 1)
-            return response()->json(['message' => 'You can\'t delete a Root directory!', 400]);
+            return response()->json(['message' => 'You can\'t delete a Root directory!'], 400);
         if(Directory::destroy($directoryID)) {
             return response()->json(['message' => 'Directory deleted successful'], 200);
         }
