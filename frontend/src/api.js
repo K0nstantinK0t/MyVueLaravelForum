@@ -84,12 +84,12 @@ export async function authUser(userData)
 
 export async function logOut()
 {
-    if(!getToken()){
+    const apiToken = getToken()
+    if(!apiToken){
         return false;
     }
     await makeCSRFToken()
     try {
-        const apiToken = store.state.API.token
         await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/logout`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
@@ -104,12 +104,12 @@ export async function logOut()
 
 export async function getUserName()
 {
-    if(!getToken()){
+    const apiToken = getToken()
+    if(!apiToken){
         return false;
     }
     await makeCSRFToken()
     try {
-        const apiToken = store.state.API.token
         const response = await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/user/name`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
@@ -117,6 +117,27 @@ export async function getUserName()
         })
         const name = response.data.name
         return name
+    }catch {
+        return null
+    }
+}
+
+export async function createNewPost(directoryID, post)
+{
+    // TODO: TEST!!!!!!
+    const apiToken = getToken()
+    if(!apiToken){
+        return false;
+    }
+    await makeCSRFToken()
+    try {
+        const response = await axios.post(`http://${API_HOST_DOMAIN_NAME}/api/forum/directories/${directoryID}/posts`, post,{
+            headers: {
+                Authorization: `Bearer ${apiToken}`
+            }
+        })
+        const newPost = response.data.post
+        return newPost
     }catch {
         return null
     }

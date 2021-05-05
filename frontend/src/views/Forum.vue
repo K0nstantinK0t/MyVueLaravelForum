@@ -3,7 +3,8 @@
     <div class="row-md ">
       <div class="col-md-12">
         <div class="row-md m-2">
-          <a class="btn btn-primary" data-bs-toggle="collapse" href="#postForm" role="button" aria-expanded="false" aria-controls="collapseExample">
+          <a class="btn btn-primary" data-bs-toggle="collapse" href="#postForm" role="button" aria-expanded="false"
+             aria-controls="collapseExample">
             Add new post
           </a>
         </div>
@@ -12,7 +13,7 @@
             <form class="text-white bg-secondary p-2 rounded" action="#" @submit.prevent="onAddNewPost">
               <div class="alert alert-danger p-0 pt-2" v-if="errors.length">
                 <ul v-for="(error, id) in errors" :key="id">
-                  {{error}}
+                  {{ error }}
                 </ul>
               </div>
               <div class="mb-1">
@@ -22,7 +23,8 @@
               <div class="mb-1">
                 <label for="content" class="form-label">Content</label>
                 <!--TODO: delete token-->
-                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="content" v-model="inputData.content">
+                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="content"
+                        v-model="inputData.content">
                 </editor>
 
               </div>
@@ -36,9 +38,11 @@
             <h5 class="row justify-content-center">Header</h5>
             <hr/>
             <div class="row ">
-                <div class="col-md d-flex justify-content-center border-secondary border-end">Updated at: 21.13.1233</div>
-                <div class="col-md d-flex justify-content-center border-secondary border-start border-end">Created at: 12.12.2131</div>
-                <div class="col-md d-flex justify-content-center border-secondary border-start">Author: 11111111</div>
+              <div class="col-md d-flex justify-content-center border-secondary border-end">Updated at: 21.13.1233</div>
+              <div class="col-md d-flex justify-content-center border-secondary border-start border-end">Created at:
+                12.12.2131
+              </div>
+              <div class="col-md d-flex justify-content-center border-secondary border-start">Author: 11111111</div>
             </div>
           </div>
         </div>
@@ -50,30 +54,32 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue'
-import {validatePostData} from "@/validation";
+import {validatePostData} from "@/validation"
+import {createNewPost} from "@/api"
 // TODO: REALIZE ALL
 export default {
   name: "Forum",
-  data: function (){
+  data: function () {
     return {
       inputData: {
         header: null,
         content: null
       },
-      errors: []
+      errors: [],
+      currentDirectory: 1,
+    }
+  },
+  methods: {
+    async onAddNewPost() {
+      this.errors = validatePostData(this.inputData);
+      if (this.errors.length)
+        return
+      const newPost = await createNewPost(this.currentDirectory, this.inputData)
+      console.log(newPost)
     }
   },
   components: {
     'editor': Editor
-  },
-  methods: {
-    onAddNewPost()
-    {
-      this.errors = validatePostData(this.inputData);
-      if (this.errors.length)
-        return
-
-    }
   }
 }
 </script>
