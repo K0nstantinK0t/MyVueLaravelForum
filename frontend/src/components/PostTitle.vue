@@ -19,7 +19,7 @@
 </template>
 
 <script>
-// TODO: realize component
+// TODO: add Post editing
 export default {
   name: "PostTitle",
   props: {

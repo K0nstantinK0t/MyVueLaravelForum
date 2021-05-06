@@ -22,8 +22,7 @@
               </div>
               <div class="mb-1">
                 <label for="content" class="form-label">Content</label>
-                <!--TODO: delete token-->
-                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="content"
+                <editor api-key="" id="content"
                         v-model="inputData.content">
                 </editor>
 
@@ -80,7 +79,7 @@ export default {
       this.errors = validatePostData(this.inputData);
       if (this.errors.length)
         return
-      await createNewPost(store.getters['forum/currentDirectory/id'], this.inputData) // TODO Not working
+      await createNewPost(store.getters['forum/currentDirectory/id'], this.inputData)
       await  this.updateDirectory()
     },
     async updateDirectory() {

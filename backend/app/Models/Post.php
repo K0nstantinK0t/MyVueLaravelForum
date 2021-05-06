@@ -31,8 +31,7 @@ class Post extends Model
      */
     public function author()
     {
-        return $this->belongsTo(User::class, 'author_id', 'id'); // TODO: reverse all relations
-        /*короче, я так понимаю свойства foreignKey и ownerKey поменялись местами*/
+        return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
     /**
