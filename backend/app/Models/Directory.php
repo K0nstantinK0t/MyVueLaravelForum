@@ -26,7 +26,7 @@ class Directory extends Model
      */
     public function parentDirectory()
     {
-        return $this->belongsTo(Directory::class, 'id', 'parent_id');
+        return $this->belongsTo(Directory::class, 'parent_id', 'id');
     }
 
     /**

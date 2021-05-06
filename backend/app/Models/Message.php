@@ -25,7 +25,7 @@ class Message extends Model
     }
 
     /**
-     * Get tied post
+     * Get tied post for init message
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function tiedPost()

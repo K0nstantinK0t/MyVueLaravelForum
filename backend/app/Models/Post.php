@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'header',
         'author_id',
         'directory_id'
     ];
+    protected $with = ['author:id,name'];
 
     /**
      * Get parent directory
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function directory()
     {
@@ -26,11 +27,12 @@ class Post extends Model
 
     /**
      * Get author of this post
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class, 'id', 'author_id');
+        return $this->belongsTo(User::class, 'author_id', 'id'); // TODO: reverse all relations
+        /*короче, я так понимаю свойства foreignKey и ownerKey поменялись местами*/
     }
 
     /**
@@ -45,10 +47,10 @@ class Post extends Model
     /**
      * Get init message.
      * Init message is the first message in the post created by post's author.
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function initMessage()
     {
-        return $this->belongsTo(Message::class, 'id','message_id');
+        return $this->belongsTo(Message::class, 'message_id','id');
     }
 }

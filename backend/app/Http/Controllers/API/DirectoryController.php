@@ -17,7 +17,7 @@ class DirectoryController extends Controller
      */
     public function index()
     {
-        $directories = Directory::all()->loadMissing('posts', 'childDirectories');
+        $directories = Directory::all()->with('posts', 'childDirectories');
         return response()->json(['directories' => $directories], 200);
     }
 
@@ -53,7 +53,8 @@ class DirectoryController extends Controller
      */
     public function show($directoryID)
     {
-        $directory = Directory::findOrFail($directoryID)->loadMissing('posts', 'childDirectories');
+        $directory = Directory::findOrFail($directoryID)->with('posts', 'childDirectories')->first();
+        //$directory = Directory::findOrFail($directoryID)->posts()->first()->initMessage()->first();
         return response()->json(['directory' => $directory], 200);
     }
 

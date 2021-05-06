@@ -33,19 +33,16 @@
           </div>
         </div>
 
-        <div class="row-md bg-white p-2 rounded m-2">
-          <div class="col-md-12">
-            <h5 class="row justify-content-center">Header</h5>
-            <hr/>
-            <div class="row ">
-              <div class="col-md d-flex justify-content-center border-secondary border-end">Updated at: 21.13.1233</div>
-              <div class="col-md d-flex justify-content-center border-secondary border-start border-end">Created at:
-                12.12.2131
-              </div>
-              <div class="col-md d-flex justify-content-center border-secondary border-start">Author: 11111111</div>
-            </div>
-          </div>
-        </div>
+        <!-- TODO: create directory markup-->
+
+        <!-- Post markup-->
+        <post-title v-for="post in directory.posts"
+                    :key="post.id"
+                    :header="post.header"
+                    :updatedAt="post.updated_at"
+                    :createdAt="post.created_at"
+                    :author="post.author.name"
+        />
 
       </div>
     </div>
@@ -56,6 +53,9 @@
 import Editor from '@tinymce/tinymce-vue'
 import {validatePostData} from "@/validation"
 import {createNewPost} from "@/api"
+import {getDirectory} from "@/api"
+import store from '@/store'
+import PostTitle from "@/components/PostTitle";
 // TODO: REALIZE ALL
 export default {
   name: "Forum",
@@ -66,20 +66,33 @@ export default {
         content: null
       },
       errors: [],
-      currentDirectory: 1,
+      directory: {
+        posts: [],
+        childDirectories: []
+      }
     }
+  },
+  async created(){
+    await this.updateDirectory()
   },
   methods: {
     async onAddNewPost() {
       this.errors = validatePostData(this.inputData);
       if (this.errors.length)
         return
-      const newPost = await createNewPost(this.currentDirectory, this.inputData)
-      console.log(newPost)
+      await createNewPost(store.getters['forum/currentDirectory/id'], this.inputData) // TODO Not working
+      await  this.updateDirectory()
+    },
+    async updateDirectory() {
+      const directory = await getDirectory(store.getters['forum/currentDirectory/id'])
+      this.directory.posts = directory.posts
+      this.directory.childDirectories = directory.child_directories
+      console.log(directory)
     }
   },
   components: {
-    'editor': Editor
+    'editor': Editor,
+    'PostTitle': PostTitle
   }
 }
 </script>
