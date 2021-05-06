@@ -54,7 +54,6 @@ class DirectoryController extends Controller
     public function show($directoryID)
     {
         $directory = Directory::findOrFail($directoryID)->with('posts', 'childDirectories')->first();
-        //$directory = Directory::findOrFail($directoryID)->posts()->first()->initMessage()->first();
         return response()->json(['directory' => $directory], 200);
     }
 

@@ -22,7 +22,8 @@
               </div>
               <div class="mb-1">
                 <label for="content" class="form-label">Content</label>
-                <editor api-key="" id="content"
+                <!--TODO: delete token-->
+                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="content"
                         v-model="inputData.content">
                 </editor>
 
