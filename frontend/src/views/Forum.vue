@@ -22,8 +22,7 @@
               </div>
               <div class="mb-1">
                 <label for="content" class="form-label">Content</label>
-                <!--TODO: delete token-->
-                <editor api-key="44vn0fh2ddbm8iz6fsa4nrqm1z71wuacrhh39xwmfgh28xdk" id="content"
+                <editor api-key="INSERT-API-TOKEN" id="content"
                         v-model="inputData.content">
                 </editor>
 
@@ -35,13 +34,14 @@
 
         <!-- TODO: create directory markup-->
 
-        <!-- Post markup-->
         <post-title v-for="post in directory.posts"
                     :key="post.id"
+                    :id="post.id"
                     :header="post.header"
                     :updatedAt="post.updated_at"
                     :createdAt="post.created_at"
-                    :author="post.author.name"
+                    :author="post.author"
+                    @postDeleted="updateDirectory"
         />
 
       </div>
@@ -55,7 +55,7 @@ import {validatePostData} from "@/validation"
 import {createNewPost} from "@/api"
 import {getDirectory} from "@/api"
 import store from '@/store'
-import PostTitle from "@/components/PostTitle";
+import PostTitle from "@/components/PostTitle"
 // TODO: REALIZE ALL
 export default {
   name: "Forum",

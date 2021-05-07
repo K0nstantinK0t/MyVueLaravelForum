@@ -11,8 +11,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/token', [AuthController::class, 'token']);
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/user/name', function (Request $request) {
-        return response()->json(['name' => $request->user()->name], 200);
+    Route::prefix('user')->group(function(){
+        Route::get('/', function (Request $request) {
+            return response()->json(['user' => [
+                'name' => $request->user()->name,
+                'id' => $request->user()->id]
+                ], 200);
+        });
     });
     Route::get('/logout', [AuthController::class, 'logOut']);
     Route::get('/isvalidtoken', [AuthController::class, 'isValidToken']);

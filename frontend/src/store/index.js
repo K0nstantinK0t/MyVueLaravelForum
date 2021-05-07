@@ -6,7 +6,8 @@ const moduleUser = {
     namespaced: true,
     state: () => ({
         isLogged: false,
-        name: null
+        name: null,
+        id: null
     }),
     mutations: {
         setName(state, newName) {
@@ -17,6 +18,9 @@ const moduleUser = {
         },
         setLoggedStatus(state, newStatus) {
             state.isLogged = newStatus
+        },
+        setID(state, newID) {
+            state.id = newID
         }
     },
     // getters: {

@@ -25,7 +25,9 @@ axios.interceptors.response.use(
 // this function is called every route change by router
 export async function callEveryRouteChange() {
     store.commit('user/setLoggedStatus', await isValidAPIToken(store.state.API.token))
-    store.commit('user/setName', await getUserName())
+    const user = await getUser()
+    store.commit('user/setName', user.name)
+    store.commit('user/setID', user.id)
 }
 
 // get CSRF token from backend. Axios sends it automatically
@@ -96,22 +98,26 @@ export async function logOut() {
     return true
 }
 
-export async function getUserName() {
+export async function getUser() {
     const apiToken = getToken()
+    const emptyUser = {
+        name: null,
+        id: null
+    }
     if (!apiToken) {
-        return null;
+        return emptyUser;
     }
     await makeCSRFToken()
     try {
-        const response = await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/user/name`, {
+        const response = await axios.get(`http://${API_HOST_DOMAIN_NAME}/api/user`, {
             headers: {
                 Authorization: `Bearer ${apiToken}`
             }
         })
-        const name = response.data.name
-        return name
+        const user = response.data.user
+        return user
     } catch {
-        return null
+        return emptyUser
     }
 }
 
@@ -128,7 +134,6 @@ export async function createNewPost(directoryID, post) {
             }
         })
         const newPost = response.data.post
-        console.log('new post: ', newPost)
         return newPost
     } catch {
         return null
@@ -148,8 +153,27 @@ export async function getDirectory(directoryID) {
             }
         })
         const directory = response.data.directory
-        console.log('В функции getDirectrory: ', directory)
         return directory
+    } catch {
+        return null
+    }
+}
+
+export async function deletePost(postID)
+{
+    const apiToken = getToken()
+    if (!apiToken) {
+        return null;
+    }
+    await makeCSRFToken()
+    try {
+        const response = await axios.delete(`http://${API_HOST_DOMAIN_NAME}/api/forum/posts/${postID}`, {
+            headers: {
+                Authorization: `Bearer ${apiToken}`
+            }
+        })
+        const message = response.data.message
+        return message
     } catch {
         return null
     }
